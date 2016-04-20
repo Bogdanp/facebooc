@@ -15,9 +15,11 @@ ListCell *listCons(void *value, size_t size, ListCell *next) {
 }
 
 ListCell *listReverse(ListCell *cell) {
-    ListCell *prev, *next;
+    ListCell
+        *prev = NULL,
+        *next = NULL;
 
-    while (cell != NULL) {
+    while (cell) {
         next = cell->next;
         cell->next = prev;
         prev = cell;
@@ -31,7 +33,7 @@ void listDel(ListCell *cell) {
     if (cell == NULL)
         return;
 
-    ListCell *next;
+    ListCell *next = NULL;
 
     do {
         next = cell->next;
@@ -44,7 +46,7 @@ void listDel(ListCell *cell) {
 }
 
 IterationResult listForEach(ListCell *cell, ListIterator iterator) {
-    if (cell == NULL)
+    if (!cell)
         return DONE;
 
     bool res;

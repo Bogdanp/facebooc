@@ -166,7 +166,7 @@ static Response *home(Request *req) {
 static Response *dashboard(Request *req) {
     EXACT_ROUTE(req, "/dashboard/");
 
-    if (req->account == NULL)
+    if (!req->account)
         return responseNewRedirect("/login/");
 
     Response *response = responseNew();
@@ -184,10 +184,10 @@ static Response *dashboard(Request *req) {
     ListCell *postPCell = NULL;
     ListCell *postCell  = postGetLatestGraph(DB, req->account->id, 0);
 
-    if (postCell != NULL)
+    if (postCell)
         res = bsNew("<ul id=\"posts\">");
 
-    while (postCell != NULL) {
+    while (postCell) {
         post = (Post *)postCell->value;
         account = accountGetById(DB, post->authorId);
         liked = likeLiked(DB, req->account->id, post->id);
@@ -221,7 +221,7 @@ static Response *dashboard(Request *req) {
         free(postPCell);
     }
 
-    if (res != NULL) {
+    if (res) {
         bsLCat(&res, "</ul>");
         templateSet(template, "graph", res);
         bsDel(res);

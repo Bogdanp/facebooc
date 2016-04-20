@@ -85,7 +85,7 @@ void responseWrite(Response *response, int fd) {
     // HEADERS
     header = response->headers;
 
-    while (header != NULL) {
+    while (header) {
         sprintf(sbuffer, "%s: %s\r\n",
                 ((KV *)header->value)->key,
                 ((KV *)header->value)->value);
@@ -102,7 +102,7 @@ void responseWrite(Response *response, int fd) {
     buffer = listCons(sbuffer, sizeof(char) * (strlen(sbuffer) + 1), buffer);
 
     // OUTPUT
-    while (buffer != NULL) {
+    while (buffer) {
         write(fd, buffer->value, strlen(buffer->value));
 
         buffer = buffer->next;
@@ -110,7 +110,7 @@ void responseWrite(Response *response, int fd) {
 
     write(fd, "\r\n", 2);
 
-    if (response->body != NULL) {
+    if (response->body) {
         write(fd, response->body, bsGetLen(response->body));
     }
 }
